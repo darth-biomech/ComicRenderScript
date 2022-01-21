@@ -1,0 +1,13 @@
+#ignore all kind of files
+*.max
+*.jpg
+*.png
+*.tif
+*.psd
+*.tga
+*.pur
+#except ms files
+!*.ms
+!*.mat
+textures/desktop.ini
+*.ini
