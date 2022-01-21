@@ -653,14 +653,50 @@ on btnSetRes pressed do
 on btnSetCam pressed do
 	(	
 	curcam = try(getActiveCamera()) catch()
+		
+	if curcam == undefined  do 
+		(
+			focdistance = gw.GetFocalDist()
+			tm = inverse (viewport.getTM())
+			cp = ray tm[4] -tm[3]
+			ct = targetobject position:(cp.pos+(cp.dir*focdistance))
+			fov_value = getViewFOV()
+			newCam = targetcamera pos:cp.pos target:ct
+			newCam.fov = fov_value
+			newCam.type = #free
+			newCam.baseObject.targetDistance = focdistance
+			curcam=newCam
+			viewport.setCamera curcam
+		)
 		camname = "none"
 		curtime = slidertime as integer / 160
-	if curcam != undefined  do (		
+	if curcam != undefined  do 
+		(		f
 		deleteKeys curcam
 		curcam.name = ("P"+pageNum.value as string+"_"+curtime as string+"("+(floor(renderWidth/10)as integer) as string+"x"+(floor(renderHeight/10)as integer) as string+")")
 		curcam.type = #free 
 		curcam.farclip = camClip.value
 		deleteKeys curcam
+			
+		camlayerexists = false
+		for i = 0 to (layermanager.count - 1) do
+		(
+			x = layermanager.getlayer i
+			test = x.name as string
+			test = toLower test
+			location = findString test "cameras"
+				if location == 1 do 
+				(
+					x.addNode curcam
+					camlayerexists = true
+				)			
+		)
+		if (camlayerexists == false) do 
+			(
+				x = LayerManager.newLayer()
+				x.setname "CAMERAS"
+				x.addNode curcam
+			)
 		)	
 	RegenerateCameras()
 	)
