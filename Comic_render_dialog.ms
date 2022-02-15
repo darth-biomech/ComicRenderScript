@@ -449,7 +449,7 @@ rollout Render_comic_cameras "Scene cameras" width:245 height:310
 				selectedCameraBit = cameraList.selection
 			)
 	)
-if Render_comic !=undefined do destroyDialog Render_comic
+  try destroyDialog Render_comic catch()
 rollout Render_comic "Render Comic" width:320 height:180
 	(
 	edittext savePath "Path" align:#center text:"Q:/!Raharrs_and_all_about/!comic/SRC/BKG_src" tooltip:"Without slash!"
@@ -560,11 +560,14 @@ on btnCapture pressed do
 	local	hCam = hideByCategory.cameras
 	local	hHelp = hideByCategory.helpers 
 	local	hWarp = hideByCategory.spacewarps
+	local viewportbkg = viewport.DispBkgImage
 		
 	hideByCategory.lights = true
 	hideByCategory.cameras = true
 	hideByCategory.helpers = true
 	hideByCategory.spacewarps = true
+		
+	viewport.DispBkgImage = false
 		
 	cui.expertModeOn()
 	img = gw.getViewportDib gammaCorrect:false captureAlpha:true -- take a shot	
@@ -595,7 +598,8 @@ on btnCapture pressed do
 	hideByCategory.lights = hLight
 	hideByCategory.cameras = hCam
 	hideByCategory.helpers = hHelp
-	hideByCategory.spacewarps = hWarp
+	hideByCategory.spacewarps = hWarp	
+	viewport.DispBkgImage = viewportbkg
 )
 
 on btnApply pressed do
