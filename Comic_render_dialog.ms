@@ -128,7 +128,7 @@ function ToggleLayer layername:"layer" showlayer:false  namemask:false =
 				doLights = false
 				
 				SaveWhole = false
-				SaveAlpha = false
+				SaveAlpha = true
 				
 				SavePasses = false
 				SaveLines = true
@@ -190,6 +190,7 @@ function ToggleLayer layername:"layer" showlayer:false  namemask:false =
 		outPath = ""
 		outPathDot = ".png"
 		
+		
 		pngio.setAlpha SaveAlpha
 		
 		camnameextra = camname[4] as string
@@ -243,6 +244,12 @@ function ToggleLayer layername:"layer" showlayer:false  namemask:false =
 		vr.options_overrideMtl_on = fxswitch AND SaveFx
 		vr.options_overrideMtl_excl_type = 1
 		useEnvironmentMap = doLights
+		oldEnvironmentColor = backgroundColor
+		
+		if dolines do
+			(
+				backgroundColor = color 255 255 255
+			)
 		rendAtmosphere = dolines
 		vr.options_lights = doLights
 		vr.options_shadows = doLights
@@ -401,6 +408,7 @@ function ToggleLayer layername:"layer" showlayer:false  namemask:false =
 			for x in (UIAccessor.GetPopupDialogs()) where (UIAccessor.GetWindowDllFileName x==((getdir #maxroot) + "bmm.dll")) do UIAccessor.CloseDialog x	
 		)
 		vr.camera_type = 0		
+		backgroundColor = oldEnvironmentColor
 	)
 	-- end if curcam	
 	--		ToggleLayer layername:"Vraytoon_lines_additional" showlayer:true namemask:false
