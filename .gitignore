@@ -11,3 +11,6 @@
 !*.mat
 textures/desktop.ini
 *.ini
+*.3DS
+*.FBX
+*.bmp
